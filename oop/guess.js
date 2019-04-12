@@ -4,20 +4,20 @@ class GuessObj {
     constructor(){
         this.secretNumber = null;
         this.guess_start = this.guess_start.bind(this);
-        this.pickRandomNumber = this.pickRandomNumber.bind(this);
-        this.attachHandlers = this.attachHandlers.bind(this);
+        // this.randomNumGenerator = this.randomNumGenerator.bind(this);
+        // this.attachHandlers = this.attachHandlers.bind(this);
         this.handleGuess = this.handleGuess.bind(this);
-        this.clearGuess = this.clearGuess.bind(this);
-        this.displayResult = this.displayResult.bind(this);
-        //make random number generator object
+        // this.clearGuess = this.clearGuess.bind(this);
+        // this.displayResult = this.displayResult.bind(this);
+        this.randomNumGenerator = new RandomGenerator(1,10);
     }
     guess_start(){
-        this.secretNumber = this.pickRandomNumber(1,10);
+        this.secretNumber = this.randomNumGenerator.getNum();
         this.attachHandlers();
     }
-    pickRandomNumber(min,max){
-        return Math.floor( Math.random() * (max-min)) + min;
-    }
+    // pickRandomNumber(min,max){
+    //     return Math.floor( Math.random() * (max-min)) + min;
+    // }
     attachHandlers(){
         $("#submitGuess").click( this.handleGuess );
         $("#userGuess").focus( this.clearGuess );
@@ -43,3 +43,4 @@ class GuessObj {
         $("#display").text( message );
     }
 }
+
