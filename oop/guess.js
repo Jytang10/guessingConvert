@@ -4,35 +4,33 @@ class GuessObj {
     constructor(){
         this.secretNumber = null;
         this.guess_start = this.guess_start.bind(this);
-        // this.randomNumGenerator = this.randomNumGenerator.bind(this);
-        // this.attachHandlers = this.attachHandlers.bind(this);
+        this.attachHandlers = this.attachHandlers.bind(this);
         this.handleGuess = this.handleGuess.bind(this);
-        // this.clearGuess = this.clearGuess.bind(this);
-        // this.displayResult = this.displayResult.bind(this);
         this.randomNumGenerator = new RandomGenerator(1,10);
+        this.inputCheckObj = new Input($("#userGuess"));
+        this.inputCheckObj.setRange(1,10);
     }
     guess_start(){
+        this.randomNumGenerator.generate();
         this.secretNumber = this.randomNumGenerator.getNum();
         this.attachHandlers();
+        console.log(this.secretNumber);
     }
-    // pickRandomNumber(min,max){
-    //     return Math.floor( Math.random() * (max-min)) + min;
-    // }
     attachHandlers(){
         $("#submitGuess").click( this.handleGuess );
         $("#userGuess").focus( this.clearGuess );
     }
     handleGuess(){
-        var userGuess = parseInt( $("#userGuess").val());
-        if(userGuess<1 || userGuess>10){
-            this.displayResult('invalid range.  Must be between 1 and 10');
+        if(this.inputCheckObj.test().result === false){
+            this.displayResult('invalid range. Must be between 1 and 10');
             return;
         }
-        if(userGuess === this.secretNumber){
+        this.userGuess = parseInt( $("#userGuess").val());
+        if(this.userGuess == this.secretNumber){
             this.displayResult('you got it!');
-        } else if (userGuess < this.secretNumber){
+        } else if (this.userGuess < this.secretNumber){
             this.displayResult('too low!');
-        } else if (userGuess > this.secretNumber){
+        } else if (this.userGuess > this.secretNumber){
             this.displayResult('too high!');
         }
     }
